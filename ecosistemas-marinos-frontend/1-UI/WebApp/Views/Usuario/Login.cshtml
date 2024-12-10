@@ -1,0 +1,77 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<section class=" text-center text-lg-start">
+    <style>
+        .rounded-t-5 {
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+        }
+
+        .rounded-bl-lg-5 {
+            border-bottom-left-radius: 0.5rem;
+        }
+
+        }
+    </style>
+    <div class="card mb-3">
+        <div class="row g-0 d-flex align-items-center">
+            <div class="col-lg-4 d-none d-lg-flex">
+                <img src="https://mdbootstrap.com/img/new/ecommerce/vertical/004.jpg" alt="Trendy Pants and Shoes"
+                     class="w-100 rounded-t-5 rounded-tr-lg-0 rounded-bl-lg-5" />
+            </div>
+            <div class="col-lg-8">
+                <div class="card-body py-5 px-md-5">
+
+                    <h1>¡Bienvenidos!</h1>
+
+                    <form method="Post">
+                        <div class="form-outline mb-4">
+                            <input type="text" id="alias" name="alias" class="form-control" />
+                            <label class="form-label" for="alias">Alias</label>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <input type="password" id="contrasenia" name="contrasenia" class="form-control" />
+                            <label class="form-label" for="contrasenia">Contraseña</label>
+                        </div>
+
+@*                         <div class="row mb-4">
+
+                            @if (@ViewBag.Error != null)
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                    <div>
+                                        @ViewBag.error
+                                    </div>
+                                </div>
+                            }
+
+
+
+                            @if (@ViewBag.Mensaje != null)
+                            {
+                                <div class="alert alert-success" role="alert">
+                                    <div>
+                                        @ViewBag.Mensaje
+                                    </div>
+                                </div>
+                            }
+
+                        </div> *@
+
+
+
+                        <button onClick="ValidarDatosIngresados()" class="btn btn-primary btn-block mb-4" type="submit">Ingresar</button>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

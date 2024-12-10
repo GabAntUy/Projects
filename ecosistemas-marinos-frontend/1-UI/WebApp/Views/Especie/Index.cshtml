@@ -1,0 +1,143 @@
+﻿@model IEnumerable<WebApp.Models.Especies.IndexEspecieViewModel>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container mt-4">
+    <h1>Listado de Especies</h1>
+
+    <div class="container mt-5">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="nombre-tab" data-toggle="tab" href="#nombre" role="tab" aria-controls="nombre" aria-selected="true">Filtrar por Nombre Científico</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="peligro-tab" data-toggle="tab" href="#peligro" role="tab" aria-controls="peligro" aria-selected="false">Especies en Peligro</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="peso-tab" data-toggle="tab" href="#peso" role="tab" aria-controls="peso" aria-selected="false">Filtrar por Peso</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="NombreEcosistema-tab" data-toggle="tab" href="#NombreEcosistema" role="tab" aria-controls="NombreEcosistema" aria-selected="false">Filtrar por Ecosistema</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="nombre" role="tabpanel" aria-labelledby="nombre-tab">
+                <form asp-action="FiltrarPorNombre" enctype="multipart/form-data" method="Post">
+                    <!-- Formulario de filtrar por nombre científico -->
+                    <fieldset>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <br />
+
+                        <div class="form-group">
+                            <input type="text" id="NombreCientifico" name="NombreCientifico" class="form-control" placeholder="Ingrese el nombre científico para Filtrar la búsqueda">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Buscar" class="btn btn-primary" />
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="peligro" role="tabpanel" aria-labelledby="peligro-tab">
+                <form asp-action="EspeciesEnPeligro" enctype="multipart/form-data" method="Get">
+                    <!-- Formulario de especies en peligro -->
+                    <fieldset>
+                        <br />
+                        <div class="form-group">
+                            <input type="submit" value="Especies en Peligro" class="btn btn-primary" />
+                        </div>
+                    </fieldset>
+
+                </form>
+            </div>
+            <div class="tab-pane fade" id="peso" role="tabpanel" aria-labelledby="peso-tab">
+                <form asp-action="EspeciesPeso" enctype="multipart/form-data" method="Post">
+                    <!-- Formulario de filtrar por peso -->
+                    <fieldset>
+                        <br />
+                        <div class="form-group">
+                            <input type="text" name="pesoMin" class="form-control" placeholder="Ingrese Peso Mínimo">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="pesoMax" class="form-control" placeholder="Ingrese Peso Máximo">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Filtrar Rango" class="btn btn-primary" />
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="NombreEcosistema" role="tabpanel" aria-labelledby="NombreEcosistema-tab">
+                <form asp-action="FiltrarPorEcosistema" enctype="multipart/form-data" method="Post">
+                    <!-- Formulario de filtrar por nombre ecosistema -->
+                    <fieldset>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <br />
+
+                        <div class="form-group">
+                            <input type="text" id="NombreEcosistema" name="NombreEcosistema" class="form-control" placeholder="Ingrese el nombre del ecosistema para Filtrar las especies que lo habitan">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Buscar" class="btn btn-primary" />
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <table class="table table-bordered table-striped">
+        <thead >
+            <tr>
+                <th>
+                    Nombre Cientifico
+                </th>
+                <th>
+                    Nombre Vulgar
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreCientifico)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreVulgar)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Detalles", "Details", new { id = item.Id }, new { @class = "btn btn-info btn-sm"  })
+                    </td>
+                    @if (@Context.Session.GetString("rol") == "administrador" || @Context.Session.GetString("rol") == "persona")
+                    {
+
+                        <td>
+                            @Html.ActionLink("Asignar Ecosistema", "AsignarEcosistema", new { id = item.Id }, new { @class = "btn btn-info btn-sm"  })
+
+                        </td>
+                    }
+                    <td>
+                        @Html.ActionLink("No Puede Habitar", "NoPuedeHabitar", new { id = item.Id }, new { @class = "btn btn-info btn-sm"  })
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .form-container {
+        border: 1px solid #ccc;
+        padding: 20px; 
+        margin-bottom: 20px; 
+    }
+
+
+</style>

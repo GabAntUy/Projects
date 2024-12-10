@@ -1,0 +1,146 @@
+﻿@model WebApp.Models.Especies.IndexEspecieViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Detalle de la Especie</h1>
+
+<div>
+    <h4>Especie</h4>
+    <hr />
+    <dl class="row">
+        <div class="col-sm-6">
+            <dt class="col-sm-4 fw-bold text-primary">ID:</dt>
+            <dd class="col-sm-8">@Model.Id</dd>
+
+            <dt class="col-sm-4 fw-bold text-primary">Nombre Científico:</dt>
+            <dd class="col-sm-8">@Model.NombreCientifico</dd>
+
+            <dt class="col-sm-4 fw-bold text-primary">Nombre Vulgar:</dt>
+            <dd class="col-sm-8 col-lg-6">@Model.NombreVulgar</dd>
+
+            <dt class="col-sm-4 fw-bold text-primary">Descripción:</dt>
+            <dd class="col-sm-8">@Model.Descripcion</dd>
+
+            <dt class="col-sm-4 fw-bold text-primary">Ecosistemas Potenciales:</dt>
+            <dd class="col-sm-8">
+                <ul class="list-unstyled">
+                    @foreach (var item in Model.PuedeHabitar)
+                    {
+                        <li>@item.Nombre</li>
+                        <li>@item.Descripcion</li>
+                    }
+                </ul>
+            </dd>
+        </div>
+
+        <div class="col-sm-6">
+            @if (Model.Habita != null)
+            {
+                <dt class="col-sm-4 fw-bold text-primary">Ecosistema Que Habita:</dt>
+                <dd class="col-sm-8">@Model.Habita.Nombre</dd>
+
+                <dt class="col-sm-4 fw-bold text-primary">Imágenes del Ecosistema que Habita:</dt>
+                <dd class="col-sm-8">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imagenEcosistema">
+                        Ver fotos
+                    </button>
+                </dd>
+            }
+            else
+            {
+                <dt class="col-sm-12 text-danger">No hay un ecosistema asociado a esta especie.</dt>
+            }
+
+            <dt class="col-sm-4 fw-bold text-primary">Rango De Peso:</dt>
+            <dd class="col-sm-8">@Model.RangoPeso.Min Kg Peso Minimo | @Model.RangoPeso.Max Kg Peso Maximo</dd>
+
+            <dt class="col-sm-4 fw-bold text-primary">Rango De Largo:</dt>
+            <dd class="col-sm-8">@Model.RangoLargo.Min m Largo Minimo | @Model.RangoLargo.Max m Largo Maximo</dd>
+
+            <dt class="col-sm-4 fw-bold text-primary">Amenazas:</dt>
+            <dd class="col-sm-8">
+                <ul class="list-unstyled">
+                    @foreach (var item in Model.Amenazas)
+                    {
+                        <li>@item.Descripcion</li>
+                    }
+                </ul>
+            </dd>
+
+            <dt class="col-sm-4 fw-bold text-primary">Estado de Conservación:</dt>
+            <dd class="col-sm-8">@Model.EstadoConservacion.Nombre</dd>
+
+            <dt class="col-sm-4 fw-bold text-primary">Imágenes de la Especie:</dt>
+            <dd class="col-sm-8">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imagenEspecie">
+                    Ver fotos
+                </button>
+            </dd>
+        </div>
+    </dl>
+
+</div>
+
+<!-- Modal Especie-->
+<div class="modal fade" id="imagenEspecie" tabindex="-1" aria-labelledby="especieLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="especieLabel">Fotos de la Especie</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @if (Model.Imagenes != null && Model.Imagenes.Any())
+                {
+                    foreach (var imagen in Model.Imagenes)
+                    {
+                        <img src="@imagen.Nombre" alt="Imagen de la Especie" class="img-fluid mb-3" />
+                    }
+                }
+                else
+                {
+                    <p>No hay imágenes disponibles para esta especie.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@if(Model.Habita != null)
+{
+    <!-- Modal Ecosistema-->
+    <div class="modal fade" id="imagenEcosistema" tabindex="-1" aria-labelledby="ecosistemaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ecosistemaLabel">Fotos del Ecosistema</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if (Model.Habita.Imagenes != null && Model.Habita.Imagenes.Any())
+                    {
+                        foreach (var imagen in Model.Habita.Imagenes)
+                        {
+                            <img src="@imagen.Nombre" alt="Imagen del ecosistema" class="img-fluid mb-3" />
+                        }
+                    }
+                    else
+                    {
+                        <p>No hay imágenes disponibles para este ecosistema.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

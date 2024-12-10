@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\3-Business\ApplicationLogic\ApplicationLogic.csproj" />
+    <ProjectReference Include="..\..\3-Business\BusinessLogic\BusinessLogic.csproj" />
+    <ProjectReference Include="..\..\4-DataAccess\DataAccessLogic\DataAccessLogic.csproj" />
+  </ItemGroup>
+
+</Project>

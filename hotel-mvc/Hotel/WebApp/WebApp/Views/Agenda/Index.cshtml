@@ -1,0 +1,95 @@
+﻿@using Dominio;
+
+<h1>Listado de agendas</h1>
+<br>
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-success" role="alert">
+        <div>
+            @ViewBag.Mensaje
+        </div>
+    </div>
+}
+
+@if (ViewBag.ErrorListaVacia != null)
+{
+    <div class="alert alert-primary" role="alert">
+        <div>
+            @ViewBag.ErrorListaVacia
+        </div>
+    </div>
+}
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <div>
+            @ViewBag.Error
+        </div>
+    </div>
+}
+
+@if (Context.Session.GetString("rol") == "Operador")
+{
+    <form action="/Agenda/AgendasXFecha" method="post">
+        <label for="Fecha">Filtrar por fecha:</label>
+        <input type="date" id="Fecha" name="fecha">
+        <button class="btn btn-primary" type="submit">Listar</button>
+    </form>
+    <br>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="text-align: center" scope="col">Nombre y Apellido</th>
+            <th style="text-align: center" scope="col">Actividad</th>
+            <th style="text-align: center" scope="col">Fecha</th>
+            <th style="text-align: center" scope="col">Lugar</th>
+            <th style="text-align: center" scope="col">Costo final</th>
+            <th style="text-align: center" scope="col">Estado</th>
+            <th style="text-align: center" scope="col">Proveedor</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Agenda item in ViewBag.Agendas)
+        {
+            <tr class="@(ViewBag.Mensaje!= null && ViewBag.Mensaje.Contains(item.Actividad.NombreActividad)? "destacado" : "")">
+                <td align="center">@item.Huesped.Nombre @item.Huesped.Apellido</td>
+                <td align="center">@item.Actividad.NombreActividad</td>
+                <td align="center">@item.Actividad.Fecha.ToShortDateString()</td>
+                @if (item.Actividad is Hostal unH)
+                {
+                    <td align="center">@unH.Lugar</td>
+                }
+                else
+                {
+                    <td align="center">-</td>
+                }
+                <td align="center">@item.MostrarCosto()</td>
+                <td align="center">@item.Estado</td>
+                @if (item.Actividad is Tercerizada unT)
+                {
+                    <td align="center">@unT.Confirmacion.Proveedor.Nombre</td>
+                }
+                else
+                {
+                    <td align="center">-</td>
+                }
+                @if (Context.Session.GetString("rol") == "Operador")
+                {
+                    @if (@item.Estado == EstadoAgenda.PENDIENTE_PAGO)
+                    {
+                        <td align="center">
+                            <form action="/Agenda/ConfirmarAgenda" method="post">
+                                <input hidden type="number" name="agenda" value="@item.Id">
+                                <button class="btn btn-primary" type="submit">Confirmar</button>
+                            </form>
+                        </td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>

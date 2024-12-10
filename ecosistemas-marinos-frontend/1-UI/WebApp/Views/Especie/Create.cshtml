@@ -1,0 +1,95 @@
+﻿@model WebApp.Models.Especies.CreateEspecieViewModel
+
+
+<h1>Alta de Nueva Especie</h1>
+
+<h4>Complete los campos</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="NombreCientifico" class="control-label">Nombre Cientifico</label>
+                <input asp-for="NombreCientifico" class="form-control" />
+                <span asp-validation-for="NombreCientifico" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NombreVulgar" class="control-label">Nombre Vulgar</label>
+                <input asp-for="NombreVulgar" class="form-control" />
+                <span asp-validation-for="NombreVulgar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label"></label>
+                <input asp-for="Descripcion" class="form-control" />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+
+           
+            <div class="form-group">
+                <label asp-for="EstadoDeConservacionId" class="control-label">Estado de Conservación</label>
+                <select asp-for="EstadoDeConservacionId" asp-items="@(new SelectList(Model.EstadosDeConservacion, "Id", "Nombre"))" class="form-control">
+                    <option value="">Selecciona un estado de conservación</option>
+                </select>
+                <span asp-validation-for="EstadoDeConservacionId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AmenazaIDs" class="control-label">Amenazas</label>
+                <select asp-for="AmenazaIDs" asp-items="@(new SelectList(Model.Amenazas, "Id", "Descripcion"))" class="form-control selectpicker" data-live-search="true" data-actions-box="true" multiple>
+                </select>
+                <span asp-validation-for="AmenazaIDs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EcosistemaIDs" class="control-label">Seleccione los Ecosistemas que Potencialmente habita la especie</label>
+                <select asp-for="EcosistemaIDs" asp-items="@(new SelectList(Model.PuedeHabitar, "Id", "Nombre"))" class="form-control selectpicker" data-live-search="true" data-actions-box="true" multiple>
+                </select>
+                <span asp-validation-for="EcosistemaIDs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LargoMin" class="control-label">Valor de largo minimo de Ejemplares Adultos</label>
+                <input asp-for="LargoMin" class="form-control" />
+                <span asp-validation-for="LargoMin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LargoMax" class="control-label">Valor de largo maximo de Ejemplares Adultos</label>
+                <input asp-for="LargoMax" class="form-control" />
+                <span asp-validation-for="LargoMax" class="text-danger"></span>
+            </div>
+
+               <div class="form-group">
+                <label asp-for="PesoMin" class="control-label">Valor de peso minimo de Ejemplares Adultos</label>
+                <input asp-for="PesoMin" class="form-control" />
+                <span asp-validation-for="PesoMin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PesoMax" class="control-label">Valor de peso maximo de Ejemplares Adultos</label>
+                <input asp-for="PesoMax" class="form-control" />
+                <span asp-validation-for="PesoMax" class="text-danger"></span>
+            </div>
+@*             <div class="form-group">
+                <label asp-for="ImagenesEspecies" class="control-label">Seleccione las imagenes de la especie</label>
+                <input asp-for="ImagenesEspecies" class="form-control" type="file" multiple />
+                <span asp-validation-for="ImagenesEspecies" class="text-danger"></span>
+            </div> *@
+           
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.Message
+    </div>
+}

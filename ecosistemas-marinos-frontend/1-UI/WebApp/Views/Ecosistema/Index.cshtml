@@ -1,0 +1,122 @@
+﻿@model IEnumerable<WebApp.Models.Ecosistemas.IndexEcosistemaViewModel>
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<div class="container mt-4">
+    <ul class="nav nav-tabs" id="myTabs">
+        <li class="nav-item">
+            <a class="nav-link active" id="ecosistemasRegistrados-tab" data-toggle="tab" href="#ecosistemasRegistrados">Ecosistemas Registrados</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="ecosistemasPorDimension-tab" data-toggle="tab" href="#ecosistemasPorDimension">Ecosistemas Por Dimension</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- Tab para Ecosistemas Registrados -->
+        <div class="tab-pane fade show active" id="ecosistemasRegistrados">
+            <h1>Ecosistemas Registrados en el Sistema</h1>
+
+            <!-- Tabla para Ecosistemas Registrados -->
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Id)</th>
+                        <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+                        <th>@Html.DisplayNameFor(model => model.Area)</th>
+                        <th>@Html.DisplayNameFor(model => model.Descripcion)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Area)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info btn-sm" })
+                                @if (@Context.Session.GetString("rol") == "administrador" || @Context.Session.GetString("rol") == "persona")
+                                {
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tab para Ecosistemas Por Dimension -->
+        <div class="tab-pane fade" id="ecosistemasPorDimension">
+            <h1>Ecosistemas Por Dimension</h1>
+
+            <form>
+                <div class="form-group">
+                    <label for="areaSeleccionada">Ingresar un área máxima:</label>
+                    <input type="text" class="form-control" id="areaSeleccionada" placeholder="Ej. 100">
+                </div>
+                <button type="button" class="btn btn-primary" onClick="consultarApi()">Consultar</button>
+            </form>
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Area</th>
+                        <th>Descripcion</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tablaCuerpo">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    
+    function consultarApi() {
+        let areaSeleccionada = document.querySelector('#areaSeleccionada').value;
+        console.log("antes del fetch");
+        fetch('https://localhost:7259/api/ecosistemas', { method: 'GET' })
+            .then(response => {
+                if (!response.ok) {
+                    console.log("Después de fetch");
+                    throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                var tbody = document.getElementById('tablaCuerpo');
+                tbody.innerHTML = '';
+
+                data.forEach(item => {
+                    if (item.area < areaSeleccionada) {
+                        var row = `
+                <tr>
+                    <td>${item.id}</td>
+                    <td>${item.nombre}</td>
+                    <td>${item.area}</td>
+                    <td>${item.descripcion}</td>
+                    <td></td>
+                </tr>`;
+                        tbody.innerHTML += row;
+                    }
+                });
+
+            })
+            .catch(error => console.error('Error al realizar la solicitud a la API:', error));
+    }
+
+</script>
+
+

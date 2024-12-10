@@ -1,0 +1,14 @@
+{
+  "config": {
+
+    "Nombre": {
+      "Maximo": 50,
+      "Minimo": 2
+    },
+
+    "Descripcion": {
+      "Maximo": 500,
+      "minimo": 50
+    }
+  }
+}

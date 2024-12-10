@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WebApp.Models.Ecosistemas.IndexEcosistemaViewModel>
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>Ecosistemas Registrados en el Sistema</h1>
+
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Area)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Area)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info btn-sm" }) 
+                    @if (@Context.Session.GetString("rol") == "administrador" || @Context.Session.GetString("rol") == "persona")
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+                       
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>

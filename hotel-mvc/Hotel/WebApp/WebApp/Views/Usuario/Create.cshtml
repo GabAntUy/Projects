@@ -1,0 +1,55 @@
+﻿@using Dominio;
+@model Huesped;
+
+<h1>Registro de huésped</h1>
+<br>
+
+@if (@ViewBag.Error != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <div>
+            @ViewBag.error
+        </div>
+    </div>
+}
+
+<form method="post">
+    <label for="Email" class="form-label">Email</label>
+    <input type="text" class="form-control" id="Email" name="Email" placeholder="Ingrese el Email" value="@Model.Email" />
+
+    <label for="Contrasena" class="form-label">Contraseña</label>
+    <input type="password" class="form-control" id="Contrasena" name="Contrasena" placeholder="Ingrese la contraseña" value="@Model.Contrasena" />
+
+    <label for="nombre" class="form-label">Nombre</label>
+    <input type="text" class="form-control" id="nombre" name="Nombre" placeholder="Ingrese el nombre" value="@Model.Nombre" />
+
+    <label for="apellido" class="form-label">Apellido</label>
+    <input type="text" class="form-control" id="apellido" name="Apellido" placeholder="Ingrese el apellido" value="@Model.Apellido" />
+
+    <label for="FechaNacimiento" class="form-label">Fecha de nacimiento</label>
+    <input type="date" class="form-control" id="FechaNacimiento" name="FechaNacimiento" placeholder="Ingrese fecha" value="@Model.FechaNacimiento.ToString("yyyy-MM-dd")" />
+
+    <label for="Habitacion" class="form-label">Habitación</label>
+    <input type="text" class="form-control" id="Habitacion" name="Habitacion" placeholder="Ingrese habitación" value="@Model.Habitacion" />
+    
+    <label for="TipoDocumento" class="form-label">Tipo Documento</label>
+    <select class="form-select" id="TipoDocumento" name="idTipoDocumento">
+        @foreach (TipoDocumento item in ViewBag.ListaTipoDocumentos)
+        {
+            if (item.Id == ViewBag.IdTipoDocumento)
+            {
+                <option selected value="@item.Id">@item.Nombre</option>
+            }
+            else
+            {
+                <option value="@item.Id">@item.Nombre</option>
+            }
+        }
+    </select>
+     
+    <label for="NumeroDocumento" class="form-label">Número de Documento</label>
+    <input type="text" class="form-control" id="NumeroDocumento" name="numeroDocumento" placeholder="Ingrese número de documento" value="@ViewBag.NumeroDocumento" />
+    <br>
+    <button type="submit" class="btn btn-primary">Registrarse</button>
+</form>
+

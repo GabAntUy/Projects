@@ -1,0 +1,32 @@
+﻿@using Dominio;
+@model Huesped;
+
+<h1>Datos personales</h1>
+<br>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="text-align: center" scope="col">Nombre</th>
+            <th style="text-align: center" scope="col">Apellido</th>
+            <th style="text-align: center" scope="col">Fecha de nacimiento</th>
+            <th style="text-align: center" scope="col">Email</th>
+            <th style="text-align: center" scope="col">Habitación</th>
+            <th style="text-align: center" scope="col">Fidelización</th>
+            <th style="text-align: center" scope="col">Documento</th>
+            <th style="text-align: center" scope="col">Número</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="center">@Model.Nombre</td>
+            <td align="center">@Model.Apellido</td>
+            <td align="center">@Model.FechaNacimiento.ToShortDateString()</td>
+            <td align="center">@Model.Email</td>
+            <td align="center">@Model.Habitacion</td>
+            <td align="center">@Model.Fidelizacion</td>
+            <td align="center">@Model.Documento.TipoDocumento.Nombre</td>
+            <td align="center">@Model.Documento.Numero</td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,52 @@
+﻿@model WebApp.Models.Especies.AsignarEcosistemaViewModel
+
+@{
+    ViewData["Title"] = "AsociarEcosistema";
+}
+
+<h1>Asociar un Ecosistema</h1>
+
+<h4>@Model.Nombre</h4>
+<hr />
+@if (string.IsNullOrEmpty(Model.EstaAsociada))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="AsignarEcosistema" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="EcosistemaId" class="control-label">Ecosistemas</label>
+                    <select asp-for="EcosistemaId" asp-items="@(new SelectList(Model.EcosistemasPosibles, "Id", "Nombre"))" class="form-control selectpicker" data-live-search="true" data-actions-box="true">
+                    </select>
+                    <span asp-validation-for="EcosistemaId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" asp-for="EspecieId" value="@Model.EspecieId" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Asignar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <p>La especie se encuentra asociada al ecosistema @Model.EstaAsociada</p>
+
+    <form asp-action="DesasignarEcosistema" method="post">
+        <div class="form-group">
+            <input value="@Model.EspecieId" type="hidden" asp-for="EspecieId"/>
+            <input type="submit" value="Desasignar" class="btn btn-danger" />
+        </div>
+    </form>
+
+}
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

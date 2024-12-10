@@ -1,0 +1,114 @@
+﻿@model WebApp.Models.Ecosistemas.IndexEcosistemaViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Ecosistema</h4>
+    <hr />
+    <dl class="row">
+        <div class="col-sm-6">
+            <dt class="col-sm-4 fw-bold">Nombre:</dt>
+            <dd class="col-sm-8">@Model.Nombre</dd>
+
+            <dt class="col-sm-4 fw-bold">Área:</dt>
+            <dd class="col-sm-8">@Model.Area</dd>
+
+            <dt class="col-sm-4 fw-bold">Descripción:</dt>
+            <dd class="col-sm-8">@Model.Descripcion</dd>
+
+            <dt class="col-sm-4 fw-bold">Países:</dt>
+            <dd class="col-sm-8">
+                <ul class="list-unstyled">
+                    @foreach (var item in Model.Paises)
+                    {
+                        <li>@item.Nombre</li>
+                    }
+                </ul>
+            </dd>
+
+            <dt class="col-sm-4 fw-bold">Especies que Habitan el Ecosistema:</dt>
+            <dd class="col-sm-8">
+                <ul class="list-unstyled">
+                    @if (Model.EspeciesQueLoHabitan.Any())
+                    {
+                        foreach (var item in Model.EspeciesQueLoHabitan)
+                        {
+                            <li>@item.NombreCientifico</li>
+                        }
+                    }
+                    else
+                    {
+                        <li>En este ecosistema no se registran especies.</li>
+                    }
+                </ul>
+            </dd>
+        </div>
+
+        <div class="col-sm-6">
+            <dt class="col-sm-4 fw-bold">Estado de Conservación:</dt>
+            <dd class="col-sm-8">@Model.EstadoDeConservacion.Nombre</dd>
+
+            <dt class="col-sm-4 fw-bold">Amenazas:</dt>
+            <dd class="col-sm-8">
+                <ul class="list-unstyled">
+                    @foreach (var item in Model.Amenazas)
+                    {
+                        <li>@item.Descripcion</li>
+                    }
+                </ul>
+            </dd>
+
+            <dt class="col-sm-4 fw-bold">Ubicación:</dt>
+            <dd class="col-sm-8">
+                <ul class="list-unstyled">
+                    <li>Latitud: @Model.Ubicacion.Latitud</li>
+                    <li>Longitud: @Model.Ubicacion.Longitud</li>
+                </ul>
+            </dd>
+
+            <dt class="col-sm-4 fw-bold">Imágenes:</dt>
+            <dd class="col-sm-8">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fotosEcosistema">
+                    Ver fotos
+                </button>
+            </dd>
+        </div>
+    </dl>
+
+
+</div>
+
+<!-- Modal Ecosistema-->
+<div class="modal fade" id="fotosEcosistema" tabindex="-1" aria-labelledby="ecosistemaImagenLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ecosistemaImagenLabel">Fotos del Ecosistema</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @if (Model.Imagenes != null && Model.Imagenes.Any())
+                {
+                    foreach (var imagen in Model.Imagenes)
+                    {
+                        <img src="@imagen.Nombre" alt="Imagen del ecosistema" class="img-fluid mb-3" />
+                    }
+                }
+                else
+                {
+                    <p>No hay imágenes disponibles para este ecosistema.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,34 @@
+﻿@using Dominio;
+
+<h1>Login</h1>
+<br>
+
+@if (@ViewBag.Mensaje != null)
+{
+    <div class="alert alert-success" role="alert">
+        <div>
+            @ViewBag.Mensaje
+        </div>
+    </div>
+}
+
+@if (@ViewBag.Error != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <div>
+            @ViewBag.Error
+        </div>
+    </div>
+}
+
+<form method="post" action="/usuario/login">
+    <label for="email" class="form-label">Email</label>
+    <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese el email" />
+    <label for="contrasena" class="form-label">Contraseña</label>
+    <input type="password" class="form-control" id="Contrasena" name="contrasena" placeholder="Ingrese la contraseña" />
+    <br>
+    <button class="btn btn-primary" type="submit">Ingresar</button>
+</form>
+<br>
+
+<h6>Si no tiene una cuenta de huésped deberá <a href="\usuario\create">Registrarse</a> </h6>

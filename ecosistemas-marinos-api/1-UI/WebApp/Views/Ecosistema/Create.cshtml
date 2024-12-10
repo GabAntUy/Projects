@@ -1,0 +1,85 @@
+﻿@model WebApp.Models.Ecosistemas.CreateEcosistemaViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Registrar Nuevo Ecosistema</h1>
+
+<h4>Complete todos los campos</h4>
+<hr />
+<fieldset>
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Nombre" class="control-label"></label>
+                    <input asp-for="Nombre" class="form-control" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Area" class="control-label"></label>
+                    <input asp-for="Area" class="form-control" />
+                    <span asp-validation-for="Area" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Descripcion" class="control-label"></label>
+                    <input asp-for="Descripcion" class="form-control" />
+                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Latitud" class="control-label"></label>
+                    <input asp-for="Latitud" class="form-control" />
+                    <span asp-validation-for="Latitud" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Longitud" class="control-label"></label>
+                    <input asp-for="Longitud" class="form-control" />
+                    <span asp-validation-for="Longitud" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EstadoDeConservacionId" class="control-label">Estado de Conservación</label>
+                    <select asp-for="EstadoDeConservacionId" asp-items="@(new SelectList(Model.EstadoDeConservacion, "Id", "Nombre"))" class="form-control">
+                        <option value="">Selecciona un estado de conservación</option>
+                    </select>
+                    <span asp-validation-for="EstadoDeConservacionId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AmenazasId" class="control-label">Amenazas</label>
+                    <select asp-for="AmenazasId" asp-items="@(new SelectList(Model.Amenazas, "Id", "Descripcion"))" class="form-control selectpicker" data-live-search="true" data-actions-box="true" multiple>
+                    </select>
+                    <span asp-validation-for="AmenazasId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PaisesId" class="control-label">Paises</label>
+                    <select asp-for="PaisesId" asp-items="@(new SelectList(Model.Paises, "Id", "Nombre"))" class="form-control selectpicker" data-live-search="true" data-actions-box="true" multiple>
+                    </select>
+                    <span asp-validation-for="PaisesId" class="text-danger"></span>
+                </div>
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="ImagenesEcosistema" class="control-label">Imágenes del Ecosistema</label>
+                    <input asp-for="ImagenesEcosistema" class="form-control" type="file" multiple />
+                    <span asp-validation-for="ImagenesEcosistema" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</fieldset>
+
+
+
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,50 @@
+﻿@using Dominio;
+@model Agenda;
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-success" role="alert">
+        <div>
+            @ViewBag.Mensaje
+        </div>
+    </div>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="text-align: center" scope="col">Nombre y Apellido</th>
+            <th style="text-align: center" scope="col">Actividad</th>
+            <th style="text-align: center" scope="col">Fecha</th>
+            <th style="text-align: center" scope="col">Lugar</th>
+            <th style="text-align: center" scope="col">Costo final</th>
+            <th style="text-align: center" scope="col">Estado</th>
+            <th style="text-align: center" scope="col">Proveedor</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="destacado">
+            <td align="center">@Model.Huesped.Nombre @Model.Huesped.Apellido</td>
+            <td align="center">@Model.Actividad.NombreActividad</td>
+            <td align="center">@Model.Actividad.Fecha.ToShortDateString()</td>
+            @if (Model.Actividad is Hostal unH)
+            {
+                <td align="center">@unH.Lugar</td>
+            }
+            else
+            {
+                <td align="center">-</td>
+            }
+            <td align="center">@Model.MostrarCosto()</td>
+            <td align="center">@Model.Estado</td>
+            @if (Model.Actividad is Tercerizada unT)
+            {
+                <td align="center">@unT.Confirmacion.Proveedor.Nombre</td>
+            }
+            else
+            {
+                <td align="center">-</td>
+            }
+        </tr>
+    </tbody>
+</table>

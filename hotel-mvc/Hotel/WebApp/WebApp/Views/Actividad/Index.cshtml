@@ -1,0 +1,68 @@
+﻿@using Dominio;
+
+<h1>Listado de actividades</h1>
+<br>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <div>
+            @ViewBag.Error
+        </div>
+    </div>
+}
+
+@if (ViewBag.ErrorListaVacia != null)
+{
+    <div class="alert alert-primary" role="alert">
+        <div>
+            @ViewBag.ErrorListaVacia
+        </div>
+    </div>
+}
+
+<form action="/Actividad/ActividadesXFecha" method="post">
+    <label for="Fecha">Filtrar por fecha:</label>
+    <input type="date" id="Fecha" name="fecha">
+    <button class="btn btn-primary" type="submit">Listar</button>
+</form>
+<br>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="text-align: center" scope="col">Id</th>
+            <th style="text-align: center"  scope="col">Nombre</th>
+            <th style="text-align: center"  scope="col">Descripción</th>
+            <th style="text-align: center"  scope="col">Fecha</th>
+            <th style="text-align: center"  scope="col">Cupos Disponibles</th>
+            <th style="text-align: center"  scope="col">Edad mínima</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Actividad item in ViewBag.Actividades)
+        {
+            <tr>
+                <th scope="row">@item.Id</th>
+                <td align="center">@item.NombreActividad</td>
+                <td align="center">@item.Descripcion</td>
+                <td align="center">@item.Fecha.ToShortDateString()</td>
+                <td align="center">@item.CuposDisponibles</td>
+                <td align="center">@item.EdadMinima</td>
+                @if (Context.Session.GetString("rol") == "Huesped" || Context.Session.GetString("rol") == null)
+                {
+                    @if (item.Fecha >= DateTime.Today)
+                    {
+                        <td>
+                            <form action="/Agenda/Create" method="post">
+                                <input hidden type="text" name="id" value="@item.Id">
+                                <button class="btn btn-primary" type="submit">Agendar</button>
+                            </form>
+                        </td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+

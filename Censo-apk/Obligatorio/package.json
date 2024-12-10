@@ -1,0 +1,20 @@
+{
+  "name": "censo",
+  "version": "1.0.0",
+  "description": "taller de desarrollo para dispositivos moviles",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gabriel Antelo",
+  "license": "ISC",
+  "dependencies": {
+    "@capacitor/android": "^5.2.2",
+    "@capacitor/core": "^5.2.2",
+    "@capacitor/geolocation": "^5.0.6",
+    "@capacitor/network": "^5.0.6"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^5.2.2"
+  }
+}

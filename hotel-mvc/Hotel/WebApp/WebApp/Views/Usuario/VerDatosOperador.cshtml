@@ -1,0 +1,25 @@
+﻿@using Dominio;
+@model Operador;
+
+<h1>Datos personales</h1>
+<br>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="text-align: center" scope="col">Nombre</th>
+            <th style="text-align: center" scope="col">Apellido</th>
+            <th style="text-align: center" scope="col">Email</th>
+            <th style="text-align: center" scope="col">Fecha que comenzó a trabajar</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="center">@Model.Nombre</td>
+            <td align="center">@Model.Apellido</td>
+            <td align="center">@Model.Email</td>
+            <td align="center">@Model.FechaInicioTrabajar.ToShortDateString()</td>
+        </tr>
+    </tbody>
+</table>
+

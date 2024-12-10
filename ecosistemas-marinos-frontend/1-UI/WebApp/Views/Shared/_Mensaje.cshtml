@@ -1,0 +1,17 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@if (ViewBag.Mensaje != null)
+{
+    if (ViewBag.TipoMensaje == "ERROR")
+    {
+        <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+    }
+
+    if (ViewBag.TipoMensaje == "OK")
+    {
+        <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+    }
+}

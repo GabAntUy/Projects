@@ -1,0 +1,111 @@
+﻿@using Dominio;
+
+<h2>Buscar agendas por huésped</h2>
+<br>
+
+@if (@ViewBag.Mensaje != null)
+{
+    <div class="alert alert-success" role="alert">
+        <div>
+            @ViewBag.Mensaje
+        </div>
+    </div>
+}
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <div>
+            @ViewBag.Error
+        </div>
+    </div>
+}
+
+@if (ViewBag.ErrorListaVacia != null)
+{
+    <div class="alert alert-primary" role="alert">
+        <div>
+            @ViewBag.ErrorListaVacia
+        </div>
+    </div>
+}
+
+<form action="/Agenda/AgendasXHuesped" method="post">
+
+    <label for="TipoDocumento">Tipo de documento:</label>
+    <div class="w-50">
+        <select class="form-select" id="TipoDocumento" name="idTipoDocumento">
+            <option>Seleccionar...</option>
+            @foreach (TipoDocumento item in ViewBag.ListaTipoDocumentos)
+            {
+                if (item.Id == ViewBag.IdTipoDocumento)
+                {
+                    <option selected value="@item.Id">@item.Nombre</option>
+                }
+                else
+                {
+                    <option value="@item.Id">@item.Nombre</option>
+                }
+            }
+        </select>
+    </div>
+
+    <label for="NumeroDocumento" class="form-label">Número de documento</label>
+    <div class="w-50">
+        <input type="text" class="form-control" id="NumeroDocumento" name="numeroDocumento" placeholder="Ingrese el número de documento" value="" />
+    </div>
+    <br>
+    <button class="btn btn-primary" type="submit">Listar</button>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="text-align: center" scope="col">Nombre y Apellido</th>
+            <th style="text-align: center" scope="col">Actividad</th>
+            <th style="text-align: center" scope="col">Fecha</th>
+            <th style="text-align: center" scope="col">Lugar</th>
+            <th style="text-align: center" scope="col">Costo final</th>
+            <th style="text-align: center" scope="col">Estado</th>
+            <th style="text-align: center" scope="col">Proveedor</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (ViewBag.Agendas != null)//desde el controlador que genera la vista(AgendasXHuesped()) no se pasa una lista por defecto vacia como ViewBag.Agendas 
+            @foreach (Agenda item in ViewBag.Agendas)
+            {
+                <tr>
+                    <td align="center">@item.Huesped.Nombre @item.Huesped.Apellido</td>
+                    <td align="center">@item.Actividad.NombreActividad</td>
+                    <td align="center">@item.Actividad.Fecha.ToShortDateString()</td>
+                    @if (item.Actividad is Hostal unH)
+                    {
+                        <td align="center">@unH.Lugar</td>
+                    }
+                    else
+                    {
+                        <td align="center">-</td>
+                    }
+                    <td align="center">@item.MostrarCosto()</td>
+                    <td align="center">@item.Estado</td>
+                    @if (item.Actividad is Tercerizada unT)
+                    {
+                        <td align="center">@unT.Confirmacion.Proveedor.Nombre</td>
+                    }
+                    else
+                    {
+                        <td align="center">-</td>
+                    }
+                    @if (@item.Estado == EstadoAgenda.PENDIENTE_PAGO)
+                    {
+                        <td align="center">
+                            <form action="/Agenda/ConfirmarAgenda" method="post">
+                                <input hidden type="number" name="agenda" value="@item.Id">
+                                <button class="btn btn-primary" type="submit">Confirmar</button>
+                            </form>
+                        </td align="center">
+                    }
+                </tr>
+            }
+    </tbody>
+</table>

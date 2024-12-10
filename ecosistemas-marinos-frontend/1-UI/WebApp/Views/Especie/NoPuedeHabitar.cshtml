@@ -1,0 +1,40 @@
+﻿@model IEnumerable<BusinessLogic.Entities.Ecosistema>
+
+@{
+    ViewData["Title"] = "NoPuedeHabitar";
+}
+
+<h1>Ecosistemas que la especie no puede habitar</h1>
+
+<table class="table">
+    <thead>
+        <tr>           
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>           
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>            
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model != null){
+            @foreach (var item in Model)
+            {
+                <tr>          
+                    <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>            
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>                    
+                </tr>
+            }   
+        }
+        else
+            {
+                <p>Esta especie puede habitar todos los ecosistemas</p>
+            }
+        
+    </tbody>
+</table>
